@@ -9,11 +9,14 @@ export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		let proxy_url = '';
 		switch (new URL(request.url).host) {
+			case 'proxy.codebam.workers.dev':
+				return new Response('proxy worker - https://github.com/codebam/proxy-worker');
 			case 'seanbehan.ca':
 				proxy_url = 'https://seanbehan-ca.pages.dev';
 			case 'www.seanbehan.ca':
 				proxy_url = 'https://seanbehan-ca.pages.dev';
 			default:
+				proxy_url = 'https://seanbehan-ca.pages.dev';
 				console.log(new URL(request.url).host);
 		}
 		let res = await fetch(proxy_url + new URL(request.url).pathname, request);
