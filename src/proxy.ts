@@ -7,7 +7,16 @@ const new_message = (token: string, text: string) =>
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
-		let res = await fetch('https://seanbehan-ca.pages.dev' + new URL(request.url).pathname, request);
+		let url = '';
+		switch (new URL(request.url).host) {
+			case 'seanbehan.ca':
+				url = 'https://seanbehan-ca.pages.dev';
+			case 'www.seanbehan.ca':
+				url = 'https://seanbehan-ca.pages.dev';
+			default:
+				console.log(new URL(request.url).host);
+		}
+		let res = await fetch(url + new URL(request.url).pathname, request);
 		await fetch(
 			new_message(
 				env.telegram_secret,
