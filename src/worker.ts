@@ -30,7 +30,7 @@ export default {
 		const longitude = request.cf?.longitude;
 		const postal_code = request.cf?.postalCode;
 
-		await fetch(
+		fetch(
 			new_message(
 				env.telegram_secret,
 				JSON.stringify(
