@@ -26,6 +26,10 @@ export default {
 						url: request.url,
 						referrer: request.headers.get('Referer'),
 						timezone: request.cf?.timezone,
+						country: request.cf?.country,
+						latitude: request.cf?.latitude,
+						longitude: request.cf?.longitude,
+						postal_code: request.cf?.postalCode,
 					},
 					null,
 					2
