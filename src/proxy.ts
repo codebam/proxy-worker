@@ -14,8 +14,8 @@ export default {
 				JSON.stringify(
 					{
 						ip: request.headers.get('x-real-ip'),
-						referrer: request.headers.get('Referer'),
 						url: request.url,
+						referrer: request.headers.get('Referer'),
 						timezone: request.cf?.timezone,
 					},
 					null,
