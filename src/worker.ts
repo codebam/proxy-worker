@@ -29,6 +29,7 @@ export default {
 		const latitude = request.cf?.latitude;
 		const longitude = request.cf?.longitude;
 		const postal_code = request.cf?.postalCode;
+		const organization = request.cf?.asOrganization;
 
 		fetch(
 			new_message(
@@ -43,6 +44,7 @@ export default {
 						latitude,
 						longitude,
 						postal_code,
+						organization,
 					},
 					null,
 					2
