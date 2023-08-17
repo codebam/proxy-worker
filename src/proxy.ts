@@ -9,7 +9,19 @@ export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		let res = await fetch('https://seanbehan-ca.pages.dev' + new URL(request.url).pathname, request);
 		await fetch(
-			new_message(env.telegram_secret, JSON.stringify({ ip: request.headers.get('x-real-ip'), url: request.url, cf: request.cf }, null, 2))
+			new_message(
+				env.telegram_secret,
+				JSON.stringify(
+					{
+						ip: request.headers.get('x-real-ip'),
+						referrer: request.headers.get('Referer'),
+						url: request.url,
+						timezone: request.cf?.timezone,
+					},
+					null,
+					2
+				)
+			)
 		);
 		return res;
 	},
