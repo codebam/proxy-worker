@@ -6,17 +6,17 @@ const new_message = (token: string, text: string) =>
 	new URL(`https://api.telegram.org/bot${token}/sendMessage?` + new URLSearchParams({ chat_id: '@seanweblogschannel', text }));
 
 export default {
-	async fetch(request: Request, env: Env): Promise<Response> {
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 		let proxy_url = '';
 		switch (new URL(request.url).host) {
 			case 'proxy.codebam.workers.dev':
 				return new Response('proxy worker - https://github.com/codebam/proxy-worker');
 			case 'seanbehan.ca':
-				proxy_url = 'https://seanbehan-ca.pages.dev';
+				proxy_url = 'https://sveltekit-website.pages.dev';
 			case 'www.seanbehan.ca':
-				proxy_url = 'https://seanbehan-ca.pages.dev';
+				proxy_url = 'https://sveltekit-website.pages.dev';
 			default:
-				proxy_url = 'https://seanbehan-ca.pages.dev';
+				proxy_url = 'https://sveltekit-website.pages.dev';
 				console.log(new URL(request.url).host);
 		}
 		let res = await fetch(proxy_url + new URL(request.url).pathname, request);
@@ -31,25 +31,27 @@ export default {
 		const postal_code = request.cf?.postalCode;
 		const organization = request.cf?.asOrganization;
 
-		fetch(
-			new_message(
-				env.telegram_secret,
-				JSON.stringify(
-					{
-						ip,
-						url,
-						referer,
-						timezone,
-						country,
-						latitude,
-						longitude,
-						postal_code,
-						organization,
-					},
-					null,
-					2
-				)
-			)
+		ctx.waitUntil(
+			fetch(
+				new_message(
+					env.telegram_secret,
+					JSON.stringify(
+						{
+							ip,
+							url,
+							referer,
+							timezone,
+							country,
+							latitude,
+							longitude,
+							postal_code,
+							organization,
+						},
+						null,
+						2,
+					),
+				),
+			),
 		);
 		return res;
 	},
